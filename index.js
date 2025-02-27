@@ -31,6 +31,17 @@ const searchPackage = (registryKey) => {
     window.open(packageUrl, '_blank');
 }
 
+const toggleDisclaimer = (show) => {
+    const element = document.getElementById("disclaimerText");
+
+    if (show) {
+        element.style.display = "block";
+    }
+    else {
+        element.style.display = "none";
+    }
+}
+
 // Configure event listeners
 document.addEventListener("DOMContentLoaded", () => {
     Object.keys(registryConfig).forEach(registryKey => {
@@ -40,5 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     document.getElementById("package").addEventListener("click", () => {
         showMessage();
+    });
+    document.getElementById("disclaimerButton").addEventListener("click", () => {
+        toggleDisclaimer(true);
+    });
+    document.getElementById("disclaimerButton").addEventListener("mouseleave", () => {
+        toggleDisclaimer(false);
     });
 });
