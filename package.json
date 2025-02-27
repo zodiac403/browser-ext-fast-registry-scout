@@ -4,6 +4,7 @@
   "description": "Navigate dependency registry catalogues, fast.",
   "main": "index.html",
   "scripts": {
+    "lint": "node node_modules/.bin/eslint --fix .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
