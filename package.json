@@ -1,0 +1,24 @@
+{
+  "name": "browser-ext-fast-registry-scout",
+  "version": "1.0.0",
+  "description": "Navigate dependency registry catalogues, fast.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zodiac403/browser-ext-fast-registry-scout.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/zodiac403/browser-ext-fast-registry-scout/issues"
+  },
+  "homepage": "https://github.com/zodiac403/browser-ext-fast-registry-scout#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "eslint": "^9.21.0"
+  }
+}
