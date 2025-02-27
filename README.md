@@ -1,2 +1,4 @@
-# browser-ext-fast-registry-scout
-Navigate dependency registry catalogues, fast
+# Browser Extension: Fast Registry Scout
+
+Navigate dependency registry catalogues, fast.
+
