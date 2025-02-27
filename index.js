@@ -4,24 +4,31 @@ const registryConfig = {
     pypi: "https://pypi.org/search/?q=",
 };
 
+const showMessage = (text) => {
+    const element = document.getElementById("message");
+
+    if (text) {
+        element.style.display = "block";
+        element.innerText = text;
+    } else {
+        element.style.display = "none";
+        element.innerText = "";
+    }
+}
+
 // Common function for handling search
 const searchPackage = (registryKey) => {
     const packageName = document.getElementById("package").value.trim();
 
     if (!packageName) {
-        alert("Please enter a package name.");
+        showMessage("Please enter a package name.");
         return;
     }
 
-    const packageUrlTemplate = registryConfig[registryKey];
-    const packageUrl = `${packageUrlTemplate}${packageName}`;
+    const urlTemplate = registryConfig[registryKey];
+    const packageUrl = `${urlTemplate}${packageName}`;
 
-    if (chrome && chrome.tabs) {
-        chrome.tabs.create({ url: packageUrl });
-    }
-    else {
-        alert(`Unknown browser: ${{ chrome }}, ${{ tabs: chrome.tabs }}`)
-    }
+    window.open(packageUrl, '_blank');
 }
 
 // Configure event listeners
@@ -30,5 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById(registryKey).addEventListener("click", () => {
             searchPackage(registryKey);
         });
-    })
+    });
+    document.getElementById("package").addEventListener("click", () => {
+        showMessage();
+    });
 });

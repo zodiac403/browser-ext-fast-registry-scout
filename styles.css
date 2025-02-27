@@ -60,6 +60,14 @@ input:focus {
     /* Ensure background doesn't turn white */
 }
 
+.message {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 1px;
+    margin-bottom: 12px;
+    display: none;
+}
+
 /* Button Row */
 .button-row {
     display: grid;
