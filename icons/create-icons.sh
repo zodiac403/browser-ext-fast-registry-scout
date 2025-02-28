@@ -1,6 +1,6 @@
 #!/bin/bash
 
-resolutions=(16 48 128)
+resolutions=(16 32 48 128)
 
 for px in "${resolutions[@]}"; do
     echo "... icon-$px.png"
