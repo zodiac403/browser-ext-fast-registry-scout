@@ -4,8 +4,9 @@
   "description": "Navigate dependency registry catalogues, fast.",
   "main": "index.html",
   "scripts": {
+    "create-icons": "bash -c \"pushd icons && ./create-icons.sh && popd\"",
     "lint": "node node_modules/.bin/eslint --fix .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "zip-chrome": "export ARCHIVE=fast-dependency-scout_chrome.zip && rm -f $ARCHIVE && zip --must-match $ARCHIVE src/*.* icons/*.png manifest.json"
   },
   "repository": {
     "type": "git",
