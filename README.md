@@ -2,19 +2,9 @@
 
 Navigate dependency registry catalogues, fast.
 
-## Build
-
-Create icons
-
-```sh
-pushd icons
-create-icons.sh
-popd
-```
-
 ## Usage
 
-...
+![Screenshot of browser side panel](images/usage.png)
 
 ## License
 
