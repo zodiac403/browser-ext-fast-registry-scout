@@ -1,6 +1,6 @@
 {
   "name": "browser-ext-fast-registry-scout",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Navigate dependency registry catalogues, fast.",
   "main": "index.html",
   "scripts": {

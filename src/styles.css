@@ -11,9 +11,13 @@
     --shadow-color: rgba(255, 255, 255, 0.1);
 }
 
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 /* Global Styles */
 body {
-    font-family: 'Robota', sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 20px;
@@ -114,12 +118,7 @@ input:focus {
 }
 
 .disclaimer-container button:hover {
-    background-color: var(--bg-color);
     color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 12px;
 }
 
 .disclaimer-content {
@@ -128,4 +127,8 @@ input:focus {
     padding: 10px;
     border: 1px solid #222;
     color: #5f6368;
+}
+
+.disclaimer-content.visible {
+    display: block;
 }

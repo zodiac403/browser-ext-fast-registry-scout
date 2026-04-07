@@ -28,18 +28,7 @@ const searchPackage = (registryKey) => {
     const urlTemplate = registryConfig[registryKey];
     const packageUrl = `${urlTemplate}${packageName}`;
 
-    window.open(packageUrl, '_blank');
-}
-
-const toggleDisclaimer = (show) => {
-    const element = document.getElementById("disclaimerText");
-
-    if (show) {
-        element.style.display = "block";
-    }
-    else {
-        element.style.display = "none";
-    }
+    window.open(packageUrl, '_blank', 'noopener,noreferrer');
 }
 
 // Configure event listeners
@@ -53,9 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
         showMessage();
     });
     document.getElementById("disclaimerButton").addEventListener("click", () => {
-        toggleDisclaimer(true);
+        document.getElementById("disclaimerText").classList.add("visible");
     });
     document.getElementById("disclaimerButton").addEventListener("mouseleave", () => {
-        toggleDisclaimer(false);
+        document.getElementById("disclaimerText").classList.remove("visible");
     });
 });
