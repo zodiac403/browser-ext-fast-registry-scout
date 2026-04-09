@@ -7,12 +7,22 @@ export default [
         languageOptions: {
             globals: {
                 ...globals.browser,
-                ...globals.webextensions
-            }
+                ...globals.webextensions,
+            },
         },
         rules: {
-            "one-var": ["error", "never"]
-        }
+            "comma-dangle": ["error", "always-multiline"],
+            "max-len": ["error", { "code": 120 }],
+            "one-var": ["error", "never"],
+        },
     },
     eslintJs.configs.all,
+    {
+        files: ["tests/**/*.js"],
+        rules: {
+            "no-magic-numbers": "off",
+            "prefer-destructuring": "off",
+            "sort-keys": "off",
+        },
+    },
 ];

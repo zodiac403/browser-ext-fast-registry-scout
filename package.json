@@ -6,6 +6,7 @@
   "scripts": {
     "create-icons": "bash -c \"pushd icons && ./create-icons.sh && popd\"",
     "lint": "node node_modules/.bin/eslint --fix .",
+    "test": "vitest run",
     "zip-chrome": "export ARCHIVE=fast-dependency-scout_chrome.zip && rm -f $ARCHIVE && zip --must-match $ARCHIVE src/*.* icons/*.png manifest.json"
   },
   "repository": {
@@ -21,6 +22,9 @@
   "homepage": "https://github.com/zodiac403/browser-ext-fast-registry-scout#readme",
   "devDependencies": {
     "@eslint/js": "^9.21.0",
-    "eslint": "^9.21.0"
+    "eslint": "^9.21.0",
+    "fast-check": "^3.23.2",
+    "jsdom": "^29.0.2",
+    "vitest": "^3.2.4"
   }
 }
