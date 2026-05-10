@@ -38,22 +38,56 @@ describe('empty input validation', () => {
 });
 
 describe('URL construction per registry', () => {
-  it('npm + react → correct URL', () => {
+  it('npm + react → package URL on 200', async () => {
+    global.fetch = vi.fn().mockResolvedValue({ status: 200 });
     document.getElementById('package').value = 'react';
     document.getElementById('npm').click();
+    await Promise.resolve();
+    expect(window.open).toHaveBeenCalledWith('https://www.npmjs.com/package/react', '_blank', 'noopener,noreferrer');
+  });
+
+  it('npm + react → search URL on 404', async () => {
+    global.fetch = vi.fn().mockResolvedValue({ status: 404 });
+    document.getElementById('package').value = 'react';
+    document.getElementById('npm').click();
+    await Promise.resolve();
     expect(window.open).toHaveBeenCalledWith('https://www.npmjs.com/search?q=react', '_blank', 'noopener,noreferrer');
   });
 
-  it('pypi + requests → correct URL', () => {
+  it('pypi + requests → package URL on 200', async () => {
+    global.fetch = vi.fn().mockResolvedValue({ status: 200 });
     document.getElementById('package').value = 'requests';
     document.getElementById('pypi').click();
-    expect(window.open).toHaveBeenCalledWith('https://pypi.org/search/?q=requests', '_blank', 'noopener,noreferrer');
+    await Promise.resolve();
+    expect(window.open).toHaveBeenCalledWith('https://pypi.org/project/requests', '_blank', 'noopener,noreferrer');
   });
 
-  it('docker + nginx → correct URL', () => {
+  it('docker + nginx → package URL on 200', async () => {
+    global.fetch = vi.fn().mockResolvedValue({ status: 200 });
     document.getElementById('package').value = 'nginx';
     document.getElementById('docker').click();
-    expect(window.open).toHaveBeenCalledWith('https://hub.docker.com/search?q=nginx', '_blank', 'noopener,noreferrer');
+    await Promise.resolve();
+    expect(window.open).toHaveBeenCalledWith('https://hub.docker.com/_/nginx', '_blank', 'noopener,noreferrer');
+  });
+
+  it('fetch error → search URL', async () => {
+    global.fetch = vi.fn().mockRejectedValue(new Error('network'));
+    document.getElementById('package').value = 'axios';
+    document.getElementById('npm').click();
+    await Promise.resolve();
+    expect(window.open).toHaveBeenCalledWith('https://www.npmjs.com/search?q=axios', '_blank', 'noopener,noreferrer');
+  });
+
+  it('timeout → search URL', async () => {
+    vi.useFakeTimers();
+    global.fetch = vi.fn().mockReturnValue(new Promise(() => { /* Never resolves */ }));
+    document.getElementById('package').value = 'axios';
+    document.getElementById('npm').click();
+    await Promise.resolve();
+    vi.advanceTimersByTime(3001);
+    await Promise.resolve();
+    expect(window.open).toHaveBeenCalledWith('https://www.npmjs.com/search?q=axios', '_blank', 'noopener,noreferrer');
+    vi.useRealTimers();
   });
 });
 
@@ -109,10 +143,10 @@ describe('property: whitespace-only input always rejected', () => {
 
 describe('property: URL = base + trimmed name', () => {
   it('URL = base + trimmed name for all registries', async () => {
-    const bases = {
-      npm: 'https://www.npmjs.com/search?q=',
-      pypi: 'https://pypi.org/search/?q=',
-      docker: 'https://hub.docker.com/search?q=',
+    const packageUrls = {
+      npm: 'https://www.npmjs.com/package/',
+      pypi: 'https://pypi.org/project/',
+      docker: 'https://hub.docker.com/_/',
     };
     await fc.assert(
       fc.asyncProperty(
@@ -125,10 +159,12 @@ describe('property: URL = base + trimmed name', () => {
         }),
         fc.constantFrom('npm', 'pypi', 'docker'),
         async (name, registry) => {
+          global.fetch = vi.fn().mockResolvedValue({ status: 200 });
           document.getElementById('package').value = name;
           document.getElementById(registry).click();
+          await Promise.resolve();
           expect(window.open).toHaveBeenCalledWith(
-            bases[registry] + name,
+            packageUrls[registry] + name,
             expect.anything(),
             expect.anything(),
           );
@@ -155,8 +191,10 @@ describe('property: window.open security arguments', () => {
         }),
         fc.constantFrom('npm', 'pypi', 'docker'),
         async (name, registry) => {
+          global.fetch = vi.fn().mockResolvedValue({ status: 200 });
           document.getElementById('package').value = name;
           document.getElementById(registry).click();
+          await Promise.resolve();
           expect(window.open).toHaveBeenCalledWith(
             expect.anything(),
             '_blank',

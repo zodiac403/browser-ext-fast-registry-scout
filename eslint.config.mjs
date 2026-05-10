@@ -19,6 +19,11 @@ export default [
     eslintJs.configs.all,
     {
         files: ["tests/**/*.js"],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+            },
+        },
         rules: {
             "no-magic-numbers": "off",
             "prefer-destructuring": "off",
