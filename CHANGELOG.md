@@ -19,6 +19,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+## [1.1.0] - 2026-05-14
+
+Direct package lookup
+
+### Added
+
+- Opens the package page directly when an exact package name is entered
+- Support for 3 new registries: crates.io (Rust), pkg.go.dev (Go), Maven Central (Java/Kotlin)
+
 ## [1.0.1] - 2026-04-07
 
 Security hardening and UI polish
