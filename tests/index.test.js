@@ -62,12 +62,11 @@ describe('URL construction per registry', () => {
     expect(window.open).toHaveBeenCalledWith('https://pypi.org/project/requests', '_blank', 'noopener,noreferrer');
   });
 
-  it('docker + nginx → package URL on 200', async () => {
-    global.fetch = vi.fn().mockResolvedValue({ status: 200 });
+  it('docker + nginx → search URL (search-only registry)', async () => {
     document.getElementById('package').value = 'nginx';
     document.getElementById('docker').click();
     await Promise.resolve();
-    expect(window.open).toHaveBeenCalledWith('https://hub.docker.com/_/nginx', '_blank', 'noopener,noreferrer');
+    expect(window.open).toHaveBeenCalledWith('https://hub.docker.com/search?q=nginx', '_blank', 'noopener,noreferrer');
   });
 
   it('fetch error → search URL', async () => {
@@ -80,12 +79,14 @@ describe('URL construction per registry', () => {
 
   it('timeout → search URL', async () => {
     vi.useFakeTimers();
-    global.fetch = vi.fn().mockReturnValue(new Promise(vi.fn()));
+    global.fetch = vi.fn().mockImplementation(({ signal }) =>
+      new Promise((_, reject) => {
+        signal.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')));
+      })
+    );
     document.getElementById('package').value = 'axios';
     document.getElementById('npm').click();
-    await Promise.resolve();
-    vi.advanceTimersByTime(3001);
-    await Promise.resolve();
+    await vi.runAllTimersAsync();
     expect(window.open).toHaveBeenCalledWith('https://www.npmjs.com/search?q=axios', '_blank', 'noopener,noreferrer');
     vi.useRealTimers();
   });
@@ -144,9 +145,10 @@ describe('property: whitespace-only input always rejected', () => {
 describe('property: URL = base + trimmed name', () => {
   it('URL = base + trimmed name for all registries', async () => {
     const packageUrls = {
+      crates: 'https://crates.io/crates/',
+      go: 'https://pkg.go.dev/',
       npm: 'https://www.npmjs.com/package/',
       pypi: 'https://pypi.org/project/',
-      docker: 'https://hub.docker.com/_/',
     };
     await fc.assert(
       fc.asyncProperty(
@@ -157,7 +159,7 @@ describe('property: URL = base + trimmed name', () => {
           }).filter(item => item.trim().length > 0),
           minLength: 1,
         }),
-        fc.constantFrom('npm', 'pypi', 'docker'),
+        fc.constantFrom('crates', 'go', 'npm', 'pypi'),
         async (name, registry) => {
           global.fetch = vi.fn().mockResolvedValue({ status: 200 });
           document.getElementById('package').value = name;
@@ -189,7 +191,7 @@ describe('property: window.open security arguments', () => {
           }).filter(item => item.trim().length > 0),
           minLength: 1,
         }),
-        fc.constantFrom('npm', 'pypi', 'docker'),
+        fc.constantFrom('crates', 'go', 'npm', 'pypi'),
         async (name, registry) => {
           global.fetch = vi.fn().mockResolvedValue({ status: 200 });
           document.getElementById('package').value = name;

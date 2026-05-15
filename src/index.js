@@ -2,6 +2,19 @@ const FETCH_TIMEOUT_MS = 3000;
 const HTTP_STATUS_OK = 200;
 
 const registryConfig = {
+    crates: {
+        searchUrl:  "https://crates.io/search?q=",
+        lookupUrl:  "https://crates.io/api/v1/crates/",
+        packageUrl: "https://crates.io/crates/",
+    },
+    go: {
+        searchUrl:  "https://pkg.go.dev/search?q=",
+        lookupUrl:  "https://pkg.go.dev/",
+        packageUrl: "https://pkg.go.dev/",
+    },
+    maven: {
+        searchUrl: "https://central.sonatype.com/search?q=",
+    },
     npm: {
         searchUrl:  "https://www.npmjs.com/search?q=",
         lookupUrl:  "https://registry.npmjs.org/",
@@ -15,8 +28,8 @@ const registryConfig = {
     },
     docker: {
         searchUrl:  "https://hub.docker.com/search?q=",
-        // LookupUrl:  "https://hub.docker.com/v2/repositories/library/",
-        // PackageUrl: "https://hub.docker.com/_/",
+        // lookupUrl:  "https://hub.docker.com/v2/repositories/library/",
+        // packageUrl: "https://hub.docker.com/_/",
     },
 };
 
