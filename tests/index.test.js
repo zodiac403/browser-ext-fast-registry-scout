@@ -80,7 +80,7 @@ describe('URL construction per registry', () => {
 
   it('timeout → search URL', async () => {
     vi.useFakeTimers();
-    global.fetch = vi.fn().mockReturnValue(new Promise(() => { /* Never resolves */ }));
+    global.fetch = vi.fn().mockReturnValue(new Promise(vi.fn()));
     document.getElementById('package').value = 'axios';
     document.getElementById('npm').click();
     await Promise.resolve();

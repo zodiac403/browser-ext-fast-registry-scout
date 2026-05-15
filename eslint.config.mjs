@@ -18,6 +18,12 @@ export default [
     },
     eslintJs.configs.all,
     {
+        rules: {
+            "max-statements": "off",
+            "sort-keys": "off",
+        },
+    },
+    {
         files: ["tests/**/*.js"],
         languageOptions: {
             globals: {
@@ -25,9 +31,9 @@ export default [
             },
         },
         rules: {
+            "max-lines-per-function": "off",
             "no-magic-numbers": "off",
             "prefer-destructuring": "off",
-            "sort-keys": "off",
         },
     },
 ];
